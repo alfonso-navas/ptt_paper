@@ -28,10 +28,6 @@ classifiers = [
 ]
 keywords = ["rbm", "Restricted Boltzmann Machine"]
 
-[tool.uv.sources]
-rbms = { workspace = true }
-[tool.uv.workspace]
-members = ["deps/*"]  
 
 [project.scripts]
 ptt="ptt_paper.scripts.entrypoint:main"
