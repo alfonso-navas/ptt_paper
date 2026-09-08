@@ -142,13 +142,14 @@ The run produces a single HDF5 archive containing:
   of the replica round-trip, once measured.
 
 ## Citation
-
+```
 @article{bereux2026equilibrium,
-title={Equilibrium Training of Energy-Based Models with Parallel Trajectory Tempering},
-author={B{\'e}reux, Nicolas and Decelle, Aur{\'e}lien and Furtlehner, Cyril and Seoane, Beatriz},
-journal={arXiv preprint arXiv:2607.27077},
-year={2026}
+    title={Equilibrium Training of Energy-Based Models with Parallel Trajectory Tempering},
+    author={B{\'e}reux, Nicolas and Decelle, Aur{\'e}lien and Furtlehner, Cyril and Seoane, Beatriz},
+    journal={arXiv preprint arXiv:2607.27077},
+    year={2026}
 }
+```
 
 ## License
 
