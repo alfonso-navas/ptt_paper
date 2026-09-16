@@ -48,6 +48,7 @@ def init_training_ptt(
         centered=not (args["no_center"]),
         L1=args["L1"],
         L2=args["L2"],
+        effL2=args.get("effL2", 0.0) or 0.0,
         normalize_grad=args["normalize_grad"],
         max_norm_grad=args["max_norm_grad"],
         subset_labels=args["subset_labels"],

@@ -138,6 +138,8 @@ def load_args_from_filename(args: dict):
             args["L1"] = f["grad_args"]["L1"][()].item()
         if args["L2"] is None:
             args["L2"] = f["grad_args"]["L2"][()].item()
+        if args.get("effL2") is None and "effL2" in f["grad_args"].keys():
+            args["effL2"] = f["grad_args"]["effL2"][()].item()
         if args["normalize_grad"] is None:
             args["normalize_grad"] = f["grad_args"]["normalize_grad"][()].item()
         if args["max_norm_grad"] is None:
@@ -165,6 +167,7 @@ def process_args_ptt(args: dict):
         "max_norm_grad": args["max_norm_grad"],
         "L1": args["L1"],
         "L2": args["L2"],
+        "effL2": args.get("effL2", 0.0) or 0.0,
     }
     args_ptt = {
         "num_swaps": args["num_swaps"],
@@ -216,12 +219,18 @@ def process_args_ptt(args: dict):
 
 
 @torch.no_grad
-def main():
-    torch.set_float32_matmul_precision("high")
-    torch.backends.cudnn.benchmark = True
-    parser = create_parser()
-    args = parser.parse_args()
-    args = vars(args)
+def train_ptt(args: dict):
+    """Run a full PTT training from a dictionary of arguments.
+
+    This is the programmatic entry point: `main()` only builds `args` from the
+    command line and delegates here, so tests and notebooks can drive the exact
+    same pipeline without going through `sys.argv`.
+
+    Args:
+        args (dict): Arguments, with the same keys as the ones produced by
+            `create_parser()`. Missing or `None` values are filled in from
+            `rbms.parser.default_args` and `default_args_ptt`.
+    """
     args = set_args_default(args, default_args=default_args)
     args = set_args_default(args, default_args=default_args_ptt)
     args = match_args_dtype(args)
@@ -303,6 +312,8 @@ def main():
                 lambda_l2=args["L2"],
                 normalize_grad=args["normalize_grad"],
                 max_grad_norm=args["max_norm_grad"],
+                model=params,
+                batch_size=args["batch_size"],
             )
             train(
                 train_dataset=train_dataset,
@@ -323,6 +334,13 @@ def main():
         except AcceptanceRateException:
             sampler, params, args, target_update = reset_training(args)
 
+
+def main():
+    torch.set_float32_matmul_precision("high")
+    torch.backends.cudnn.benchmark = True
+    parser = create_parser()
+    args = vars(parser.parse_args())
+    train_ptt(args)
 
 if __name__ == "__main__":
     main()

@@ -18,7 +18,7 @@ description = "Use the training trajectory of the RBM to improve sampling during
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-  "rbms==0.6.0",
+  "rbms>=0.6.0",
   "scipy",
 ]
 classifiers = [
@@ -28,6 +28,14 @@ classifiers = [
 ]
 keywords = ["rbm", "Restricted Boltzmann Machine"]
 
+# Use the local fork of rbms (expected as a sibling directory) instead of PyPI.
+[tool.uv.sources]
+rbms = { path = "../rbms", editable = true }
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
+]
 
 [project.scripts]
 ptt="ptt_paper.scripts.entrypoint:main"
