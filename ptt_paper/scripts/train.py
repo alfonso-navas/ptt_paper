@@ -310,6 +310,7 @@ def train_ptt(args: dict):
                 optimizer=optimizer,
                 lambda_l1=args["L1"],
                 lambda_l2=args["L2"],
+                lambda_eff_l2=args.get("effL2", 0.0) or 0.0,
                 normalize_grad=args["normalize_grad"],
                 max_grad_norm=args["max_norm_grad"],
                 model=params,
