@@ -59,6 +59,7 @@ def init_training_ptt(
         device=args["device"],
         flags=flags,
         map_model=map_model,
+        init_vbias=args["init_vbias"],
     )
     if args["model_type"] is None:
         match train_dataset.variable_type:
